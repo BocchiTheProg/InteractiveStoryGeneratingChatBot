@@ -2,29 +2,43 @@ version: "3.1"
 
 stories:
 
-- story: happy path
+- story: Greet and Start Story
   steps:
   - intent: greet
   - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
+  - intent: start_story
+  - action: utter_start
 
-- story: sad path 1
+- story: Start Story Directly
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
+  - intent: start_story
+  - action: utter_start
 
-- story: sad path 2
+- story: Continue Story
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
+  - intent: start_story
+  - action: utter_start
+  - intent: continue_story
+  - action: utter_continue
+  - intent: continue_story
+  - action: utter_continue
+
+- story: Update Story
+  steps:
+  - intent: start_story
+  - action: utter_start
+  - intent: continue_story
+  - action: utter_continue
+  - intent: continue_story
+  - action: utter_continue
+  - intent: continue_story
+  - action: utter_continue
+
+- story: End Conversation
+  steps:
+  - intent: start_story
+  - action: utter_start
+  - intent: continue_story
+  - action: utter_continue
+  - intent: goodbye
   - action: utter_goodbye
