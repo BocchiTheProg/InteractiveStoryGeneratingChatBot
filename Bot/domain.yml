@@ -1,27 +1,45 @@
 version: "3.1"
 
+#intents:
+#  - greet
+#  - goodbye
+#  - affirm
+#  - deny
+#  - mood_great
+#  - mood_unhappy
+#  - bot_challenge
+
 intents:
   - greet
+  - start_story
+  - continue_story
   - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
   - bot_challenge
+
+entities:
+  - story_topic
+  - story_continuation
+  - story_update
 
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
+  - text: "Hello, do you ready to start a story?"
 
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
+  utter_start:
+    - text: "The story begin in..."
 
-  utter_did_that_help:
-  - text: "Did that help you?"
+  utter_continue:
+    - text: "End then they..."
 
-  utter_happy:
-  - text: "Great, carry on!"
+#  utter_cheer_up:
+#  - text: "Here is something to cheer you up:"
+#    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+#  utter_did_that_help:
+#  - text: "Did that help you?"
+
+#  utter_happy:
+#  - text: "Great, carry on!"
 
   utter_goodbye:
   - text: "Bye"
