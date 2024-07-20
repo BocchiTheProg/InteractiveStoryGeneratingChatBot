@@ -10,13 +10,35 @@ nlu:
     - good morning
     - good evening
     - moin
-    - wahta fdskdr drg
     - hey there
     - let's go
     - hey dude
     - goodmorning
     - goodevening
     - good afternoon
+    - greetings
+
+- intent: start_story
+  examples: |
+    - hello, can you start a story about [dragons](story_topic)?
+    - hi, please create a story about [space adventure](story_topic)
+    - can you write a story about [a brave knight](story_topic)?
+    - start a story with [a haunted house](story_topic)
+    - tell me a story about [a wizard](story_topic)
+    - write a story involving [a princess](story_topic)
+    - hey, I want a story about [robots](story_topic)
+    - hello, start a story about [pirates](story_topic)
+
+- intent: continue_story
+  examples: |
+    - continue the story
+    - what happens next?
+    - and then?
+    - continue with [the hero finding a treasure](story_continuation)
+    - go on with [the dragon attacking the village](story_continuation)
+    - update the story with [the princess being rescued](story_continuation)
+    - change the story to [include a talking cat](story_update)
+    - i want you to update the story so [characters entered a cave](story_update)
 
 - intent: goodbye
   examples: |
@@ -30,59 +52,65 @@ nlu:
     - see you around
     - bye bye
     - see you later
+    - talk to you later
+    - farewell
+    - catch you later
+    - I'm done
+    - that's all for now
+    - end the conversation
 
-- intent: affirm
-  examples: |
-    - yes
-    - y
-    - indeed
-    - of course
-    - that sounds good
-    - correct
-
-- intent: deny
-  examples: |
-    - no
-    - n
-    - never
-    - I don't think so
-    - don't like that
-    - no way
-    - not really
-
-- intent: mood_great
-  examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
-
-- intent: mood_unhappy
-  examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
+#- intent: affirm
+#  examples: |
+#    - yes
+#    - y
+#    - indeed
+#    - of course
+#    - that sounds good
+#    - correct
+#
+#- intent: deny
+#  examples: |
+#    - no
+#    - n
+#    - never
+#    - I don't think so
+#    - don't like that
+#    - no way
+#    - not really
+#
+#- intent: mood_great
+#  examples: |
+#    - perfect
+#    - great
+#    - amazing
+#    - feeling like a king
+#    - wonderful
+#    - I am feeling very good
+#    - I am great
+#    - I am amazing
+#    - I am going to save the world
+#    - super stoked
+#    - extremely good
+#    - so so perfect
+#    - so good
+#    - so perfect
+#
+#- intent: mood_unhappy
+#  examples: |
+#    - my day was horrible
+#    - I am sad
+#    - I don't feel very well
+#    - I am disappointed
+#    - super sad
+#    - I'm so sad
+#    - sad
+#    - very sad
+#    - unhappy
+#    - not good
+#    - not very good
+#    - extremly sad
+#    - so saad
+#    - so sad
 
 - intent: bot_challenge
   examples: |
