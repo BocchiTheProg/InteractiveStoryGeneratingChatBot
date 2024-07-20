@@ -2,79 +2,136 @@
 #### If you want to learn more, please see the docs: https://rasa.com/docs/rasa/testing-your-assistant
 
 stories:
-- story: happy path 1
+- story: Test Greet and Start Story
   steps:
-  - user: |
-      hello there!
-    intent: greet
+  - intent: greet
+    user: |
+      - hello
+      - hi
   - action: utter_greet
-  - user: |
-      amazing
-    intent: mood_great
-  - action: utter_happy
+  - intent: start_story
+    user: |
+      - start a story about dragons
+  - action: utter_start
 
-- story: happy path 2
+- story: Test Start Story Directly
   steps:
-  - user: |
-      hello there!
-    intent: greet
-  - action: utter_greet
-  - user: |
-      amazing
-    intent: mood_great
-  - action: utter_happy
-  - user: |
-      bye-bye!
-    intent: goodbye
+  - intent: start_story
+    user: |
+      - can you tell me a story about a wizard?
+  - action: utter_start
+
+- story: Test Continue Story
+  steps:
+  - intent: start_story
+    user: |
+      - tell me a story about pirates
+  - action: utter_start
+  - intent: continue_story
+    user: |
+      - continue the story
+  - action: utter_continue
+
+- story: Test Update Story
+  steps:
+  - intent: start_story
+    user: |
+      - start a story about a haunted house
+  - action: utter_start
+  - intent: continue_story
+    user: |
+      - change the story to include a talking cat
+  - action: utter_continue
+
+
+- story: Test End Conversation
+  steps:
+  - intent: start_story
+    user: |
+      - start a story about a princess
+  - action: utter_start
+  - intent: continue_story
+    user: |
+      - what happens next?
+  - action: utter_continue
+  - intent: goodbye
+    user: |
+      - goodbye
   - action: utter_goodbye
 
-- story: sad path 1
-  steps:
-  - user: |
-      hello
-    intent: greet
-  - action: utter_greet
-  - user: |
-      not good
-    intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - user: |
-      yes
-    intent: affirm
-  - action: utter_happy
-
-- story: sad path 2
-  steps:
-  - user: |
-      hello
-    intent: greet
-  - action: utter_greet
-  - user: |
-      not good
-    intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - user: |
-      not really
-    intent: deny
-  - action: utter_goodbye
-
-- story: sad path 3
-  steps:
-  - user: |
-      hi
-    intent: greet
-  - action: utter_greet
-  - user: |
-      very terrible
-    intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - user: |
-      no
-    intent: deny
-  - action: utter_goodbye
+#- story: happy path 1
+#  steps:
+#  - user: |
+#      hello there!
+#    intent: greet
+#  - action: utter_greet
+#  - user: |
+#      amazing
+#    intent: mood_great
+#  - action: utter_happy
+#
+#- story: happy path 2
+#  steps:
+#  - user: |
+#      hello there!
+#    intent: greet
+#  - action: utter_greet
+#  - user: |
+#      amazing
+#    intent: mood_great
+#  - action: utter_happy
+#  - user: |
+#      bye-bye!
+#    intent: goodbye
+#  - action: utter_goodbye
+#
+#- story: sad path 1
+#  steps:
+#  - user: |
+#      hello
+#    intent: greet
+#  - action: utter_greet
+#  - user: |
+#      not good
+#    intent: mood_unhappy
+#  - action: utter_cheer_up
+#  - action: utter_did_that_help
+#  - user: |
+#      yes
+#    intent: affirm
+#  - action: utter_happy
+#
+#- story: sad path 2
+#  steps:
+#  - user: |
+#      hello
+#    intent: greet
+#  - action: utter_greet
+#  - user: |
+#      not good
+#    intent: mood_unhappy
+#  - action: utter_cheer_up
+#  - action: utter_did_that_help
+#  - user: |
+#      not really
+#    intent: deny
+#  - action: utter_goodbye
+#
+#- story: sad path 3
+#  steps:
+#  - user: |
+#      hi
+#    intent: greet
+#  - action: utter_greet
+#  - user: |
+#      very terrible
+#    intent: mood_unhappy
+#  - action: utter_cheer_up
+#  - action: utter_did_that_help
+#  - user: |
+#      no
+#    intent: deny
+#  - action: utter_goodbye
 
 - story: say goodbye
   steps:
