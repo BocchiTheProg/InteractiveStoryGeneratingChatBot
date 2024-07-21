@@ -28,6 +28,8 @@
 
 from typing import Any, Text, Dict, List
 
+import mysql.connector
+from datetime import datetime
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet, FollowupAction
 from rasa_sdk.executor import CollectingDispatcher
@@ -103,3 +105,43 @@ class ActionDenyRewriteStory(Action):
             dispatcher.utter_message(text="I don't understand your request.")
             return []
 
+
+class ActionSaveConversation(Action):
+    def name(self):
+        return "action_save_conversation"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        if tracker.latest_message.get('intent').get('name') == 'affirm':
+            conversation_date = datetime.now().strftime('%Y-%m-%d')
+            conversation_text = ''
+            for event in tracker.events:
+                if event['event'] == "user":
+                    conversation_text += 'User:' + event["text"]
+                    conversation_text += '\n'
+                if event['event'] == 'bot':
+                    conversation_text += "Bot:" + event["text"]
+                    conversation_text += '\n'
+            try:
+                connection = mysql.connector.connect(
+                    host='localhost',
+                    user='root',
+                    password='root',
+                    database='rasachatbot'
+                )
+                my_cursor = connection.cursor()
+                sql = "INSERT INTO conversations (conv_date, conv_text) VALUES (%s, %s)"
+                val = (conversation_date, conversation_text)
+                my_cursor.execute(sql, val)
+                connection.commit()
+                dispatcher.utter_message(text="Thanks for your cooperation ^._.^")
+            except mysql.connector.Error as error:
+                dispatcher.utter_message(text=f"Failed to save conversation to database: {error}")
+            finally:
+                if connection.is_connected():
+                    my_cursor.close()
+                    connection.close()
+
+        dispatcher.utter_message(text="Have a nice day.")
+        return [SlotSet("rewrite_request", False)]

@@ -23,6 +23,7 @@ actions:
   - action_handle_story
   - action_affirm_rewrite_story
   - action_deny_rewrite_story
+  - action_save_conversation
 
 entities:
   - story_topic

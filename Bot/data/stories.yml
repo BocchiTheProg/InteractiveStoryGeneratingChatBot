@@ -133,14 +133,14 @@ stories:
   - intent: greet
   - action: utter_greet
   - intent: deny
-  - action: action_affirm_rewrite_story
+  - action: action_deny_rewrite_story
 
 - story: Random Deny 2
   steps:
   - intent: continue_story
   - action: action_handle_story
   - intent: deny
-  - action: action_affirm_rewrite_story
+  - action: action_deny_rewrite_story
 
 - story: End Conversation 1 (affirm)
   steps:
@@ -154,7 +154,7 @@ stories:
   - action: utter_goodbye
   - action: utter_ask_save_conversation
   - intent: affirm
-  - action: utter_goodbye
+  - action: action_save_conversation
 
 - story: End Conversation 2 (deny)
   steps:
@@ -168,7 +168,7 @@ stories:
   - action: utter_goodbye
   - action: utter_ask_save_conversation
   - intent: deny
-  - action: utter_not_work
+  - action: action_save_conversation
 
 - story: End Conversation 3 (affirm)
   steps:
@@ -178,7 +178,7 @@ stories:
   - action: utter_goodbye
   - action: utter_ask_save_conversation
   - intent: affirm
-  - action: utter_goodbye
+  - action: action_save_conversation
 
 - story: End Conversation 4 (deny)
   steps:
@@ -188,7 +188,7 @@ stories:
   - action: utter_goodbye
   - action: utter_ask_save_conversation
   - intent: deny
-  - action: utter_not_work
+  - action: action_save_conversation
 
 - story: End Conversation 5 (affirm)
   steps:
@@ -196,7 +196,7 @@ stories:
   - action: utter_goodbye
   - action: utter_ask_save_conversation
   - intent: affirm
-  - action: utter_goodbye
+  - action: action_save_conversation
 
 - story: End Conversation 6 (deny)
   steps:
@@ -204,4 +204,4 @@ stories:
   - action: utter_goodbye
   - action: utter_ask_save_conversation
   - intent: deny
-  - action: utter_not_work
+  - action: action_save_conversation
