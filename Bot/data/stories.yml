@@ -7,38 +7,201 @@ stories:
   - intent: greet
   - action: utter_greet
   - intent: start_story
-  - action: utter_start
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
 
 - story: Start Story Directly
   steps:
   - intent: start_story
-  - action: utter_start
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
 
 - story: Continue Story
   steps:
   - intent: start_story
-  - action: utter_start
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
   - intent: continue_story
-  - action: utter_continue
+  - action: action_handle_story
   - intent: continue_story
-  - action: utter_continue
+  - action: action_handle_story
 
 - story: Update Story
   steps:
   - intent: start_story
-  - action: utter_start
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
   - intent: continue_story
-  - action: utter_continue
+  - action: action_handle_story
   - intent: continue_story
-  - action: utter_continue
+  - action: action_handle_story
   - intent: continue_story
-  - action: utter_continue
+  - action: action_handle_story
 
-- story: End Conversation
+- story: Continue Story before Starting with Greet
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: continue_story
+  - action: action_handle_story
+  - intent: start_story
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
+
+- story: Continue Story before Starting
+  steps:
+  - intent: continue_story
+  - action: action_handle_story
+  - intent: start_story
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
+  - intent: continue_story
+  - action: action_handle_story
+  - intent: continue_story
+  - action: action_handle_story
+
+- story: Start New Story after Starting One
   steps:
   - intent: start_story
-  - action: utter_start
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
+  - intent: start_story
+  - action: action_generate_story
+  - intent: affirm
+  - action: action_affirm_rewrite_story
+
+- story: Deny Rewrite Story
+  steps:
+  - intent: start_story
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
+  - intent: start_story
+  - action: action_generate_story
+  - intent: deny
+  - action: action_deny_rewrite_story
+
+- story: Start New Story after Continue
+  steps:
+  - intent: start_story
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
   - intent: continue_story
-  - action: utter_continue
+  - action: action_handle_story
+  - intent: start_story
+  - action: action_generate_story
+  - intent: affirm
+  - action: action_affirm_rewrite_story
+
+- story: Deny Rewrite Story after Continue
+  steps:
+  - intent: start_story
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
+  - intent: continue_story
+  - action: action_handle_story
+  - intent: start_story
+  - action: action_generate_story
+  - intent: deny
+  - action: action_deny_rewrite_story
+
+- story: Random Affirm 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: affirm
+  - action: action_affirm_rewrite_story
+
+- story: Random Affirm 2
+  steps:
+  - intent: continue_story
+  - action: action_handle_story
+  - intent: affirm
+  - action: action_affirm_rewrite_story
+
+- story: Random Deny 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: deny
+  - action: action_affirm_rewrite_story
+
+- story: Random Deny 2
+  steps:
+  - intent: continue_story
+  - action: action_handle_story
+  - intent: deny
+  - action: action_affirm_rewrite_story
+
+- story: End Conversation 1 (affirm)
+  steps:
+  - intent: start_story
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
+  - intent: continue_story
+  - action: action_handle_story
   - intent: goodbye
   - action: utter_goodbye
+  - action: utter_ask_save_conversation
+  - intent: affirm
+  - action: utter_goodbye
+
+- story: End Conversation 2 (deny)
+  steps:
+  - intent: start_story
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
+  - intent: continue_story
+  - action: action_handle_story
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: utter_ask_save_conversation
+  - intent: deny
+  - action: utter_not_work
+
+- story: End Conversation 3 (affirm)
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: utter_ask_save_conversation
+  - intent: affirm
+  - action: utter_goodbye
+
+- story: End Conversation 4 (deny)
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: utter_ask_save_conversation
+  - intent: deny
+  - action: utter_not_work
+
+- story: End Conversation 5 (affirm)
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: utter_ask_save_conversation
+  - intent: affirm
+  - action: utter_goodbye
+
+- story: End Conversation 6 (deny)
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: utter_ask_save_conversation
+  - intent: deny
+  - action: utter_not_work
