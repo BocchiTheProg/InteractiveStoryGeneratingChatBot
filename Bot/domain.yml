@@ -13,13 +13,40 @@ intents:
   - greet
   - start_story
   - continue_story
+  - affirm
+  - deny
   - goodbye
   - bot_challenge
+
+actions:
+  - action_generate_story
+  - action_handle_story
+  - action_affirm_rewrite_story
+  - action_deny_rewrite_story
 
 entities:
   - story_topic
   - story_continuation
   - story_update
+
+slots:
+  story_started:
+    type: bool
+    initial_value: false
+    influence_conversation: true
+    mappings:
+    - type: custom
+  rewrite_request:
+    type: bool
+    initial_value: false
+    influence_conversation: true
+    mappings:
+    - type: custom
+  story_keeper:
+    type: text
+    initial_value: ''
+    mappings:
+    - type: custom
 
 responses:
   utter_greet:
@@ -30,6 +57,15 @@ responses:
 
   utter_continue:
     - text: "End then they..."
+
+  utter_ask_rewrite_story:
+    - text: "It seems like you already have a story started. Do you want to completely rewrite the story?"
+
+  utter_prompt_start_story:
+    - text: "You need to start a story first. Please tell me what you want your story to be about."
+
+  utter_ask_save_conversation:
+    - text: "Is it ok if I save our conversation in my database? It will help me to improve my productivity."
 
 #  utter_cheer_up:
 #  - text: "Here is something to cheer you up:"
