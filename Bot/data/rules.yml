@@ -6,6 +6,17 @@ rules:
   steps:
   - intent: goodbye
   - action: utter_goodbye
+  - action: utter_ask_save_conversation
+
+#- rule: Handle affirmative intent
+#  steps:
+#  - intent: affirm
+#  - action: action_affirm_rewrite_story
+#
+#- rule: Handle deny intent
+#  steps:
+#  - intent: deny
+#  - action: action_deny_rewrite_story
 
 - rule: Say 'I am a bot' anytime the user challenges
   steps:
