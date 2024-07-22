@@ -48,6 +48,10 @@ slots:
     initial_value: ''
     mappings:
     - type: custom
+  story_history:
+    type: list
+    mappings:
+    - type: custom
 
 responses:
   utter_greet:

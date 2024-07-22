@@ -28,7 +28,9 @@
 
 from typing import Any, Text, Dict, List
 
+import os
 import mysql.connector
+from groq import Groq
 from datetime import datetime
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet, FollowupAction
@@ -47,12 +49,32 @@ class ActionGenerateStory(Action):
             dispatcher.utter_message(response="utter_ask_rewrite_story")
             return [SlotSet("rewrite_request", True), SlotSet("story_keeper", tracker.latest_message.get('text'))]
 
+        client = Groq(api_key=os.environ.get("GROQ_API_KEY"), )
+        system_prompt = {
+            "role": "system",
+            "content":
+                "You are a storyteller, so when asked for story, you immediately start it. Also you don`t need to tell very big story"
+        }
+        history = [system_prompt]
+        story_promt = ''
         if tracker.get_slot('story_keeper') != '':
-            dispatcher.utter_message(text=tracker.get_slot('story_keeper'))
+            story_promt = tracker.get_slot('story_keeper').strip()
+            # dispatcher.utter_message(text=tracker.get_slot('story_keeper'))
         else:
-            dispatcher.utter_message(response="utter_start")
+            # dispatcher.utter_message(response="utter_start")
+            story_promt = tracker.latest_message.get('text').strip()
 
-        return [SlotSet("story_started", True), SlotSet("story_keeper", '')]
+        history.append({"role": 'user', "content": story_promt})
+        response = client.chat.completions.create(model="llama3-70b-8192",
+                                                  messages=history)
+        res_text = response.choices[0].message.content.strip()
+        history.append({
+            "role": "assistant",
+            "content": res_text
+        })
+        dispatcher.utter_message(text=res_text)
+
+        return [SlotSet("story_started", True), SlotSet("story_keeper", ''), SlotSet("story_history", history)]
 
 
 class ActionHandleStory(Action):
@@ -68,9 +90,20 @@ class ActionHandleStory(Action):
             dispatcher.utter_message(response="utter_prompt_start_story")
             return []
 
-        dispatcher.utter_message(response="utter_continue")
+        client = Groq(api_key=os.environ.get("GROQ_API_KEY"), )
+        history = tracker.get_slot('story_history')
 
-        return [SlotSet("rewrite_request", False)]
+        history.append({"role": 'user', "content": tracker.latest_message.get('text').strip()})
+        response = client.chat.completions.create(model="llama3-70b-8192",
+                                                  messages=history)
+        res_text = response.choices[0].message.content.strip()
+        history.append({
+            "role": "assistant",
+            "content": res_text
+        })
+        dispatcher.utter_message(text=res_text)
+
+        return [SlotSet("rewrite_request", False), SlotSet("story_history", history)]
 
 
 class ActionAffirmRewriteStory(Action):
