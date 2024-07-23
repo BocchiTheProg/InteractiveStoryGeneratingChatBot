@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasa Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        #chat-container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #chat-box {
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .message {
+            margin: 5px 0;
+        }
+        .message.user {
+            text-align: right;
+            color: blue;
+        }
+        .message.bot {
+            text-align: left;
+            color: green;
+        }
+        .message img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        #input-box {
+            display: flex;
+        }
+        #input-box input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+        #input-box button {
+            padding: 10px;
+            border: none;
+            background: blue;
+            color: white;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <h2 style="text-align: center">Rasa Chatbot</h2>
+        <div id="chat-box"></div>
+        <div id="input-box">
+            <input type="text" id="user-input" placeholder="Type your message here...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4/dist/socket.io.min.js"></script>
+    <script>
+        const socket = io('http://localhost:5005');
+
+        let sessionId = null;
+
+        socket.on('connect', function() {
+            console.log('Connection established');
+            sessionId = socket.id; // Get session ID after connection
+            console.log('Session ID:', sessionId);
+        });
+
+        socket.on('session_confirm', function(data) {
+            console.log('Session confirm event received:', data);
+            console.log('Session confirmed with ID:', sessionId);
+        });
+
+        socket.on('bot_uttered', function(data) {
+            if (data && data.text) {
+                addMessage('bot', data.text);
+            }
+            if (data && data.image) {
+                addImage('bot', data.image);
+            }
+        });
+
+        socket.on('disconnect', function() {
+            console.log('Connection lost');
+        });
+
+        function sendMessage() {
+            const inputBox = document.getElementById('user-input');
+            const message = inputBox.value.trim();
+
+            if (message && sessionId) {
+                addMessage('user', message);
+                socket.emit('user_uttered', { message: message, session_id: sessionId });
+                inputBox.value = '';
+            } else {
+                console.error('Session ID is not set or message is empty');
+            }
+        }
+
+        function addMessage(sender, text) {
+            const chatBox = document.getElementById('chat-box');
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message ' + sender;
+            messageElement.textContent = text;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function addImage(sender, imageUrl) {
+            const chatBox = document.getElementById('chat-box');
+            const imageElement = document.createElement('div');
+            imageElement.className = 'message ' + sender;
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            imageElement.appendChild(img);
+            chatBox.appendChild(imageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
