@@ -1,14 +1,5 @@
 version: "3.1"
 
-#intents:
-#  - greet
-#  - goodbye
-#  - affirm
-#  - deny
-#  - mood_great
-#  - mood_unhappy
-#  - bot_challenge
-
 intents:
   - greet
   - start_story
@@ -55,32 +46,16 @@ slots:
 
 responses:
   utter_greet:
-  - text: "Hello, do you ready to start a story?"
-
-  utter_start:
-    - text: "The story begin in..."
-
-  utter_continue:
-    - text: "End then they..."
+  - text: "Hello, I am ready to help you write a story."
 
   utter_ask_rewrite_story:
-    - text: "It seems like you already have a story started. Do you want to completely rewrite the story?"
+  - text: "It seems like you already have a story started. Do you want to completely rewrite the story?"
 
   utter_prompt_start_story:
-    - text: "You need to start a story first. Please tell me what you want your story to be about."
+  - text: "You need to start a story first. Please tell me what you want your story to be about."
 
   utter_ask_save_conversation:
-    - text: "Is it ok if I save our conversation in my database? It will help me to improve my productivity."
-
-#  utter_cheer_up:
-#  - text: "Here is something to cheer you up:"
-#    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-#  utter_did_that_help:
-#  - text: "Did that help you?"
-
-#  utter_happy:
-#  - text: "Great, carry on!"
+  - text: "Is it ok if I save our conversation in my database? It will help me to improve my productivity."
 
   utter_goodbye:
   - text: "Bye"
