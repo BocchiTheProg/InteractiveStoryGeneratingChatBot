@@ -1,30 +1,5 @@
 # This files contains your custom actions which can be used to run
 # custom Python code.
-#
-# See this guide on how to implement these action:
-# https://rasa.com/docs/rasa/custom-actions
-
-
-# This is a simple example for a custom action which utters "Hello World!"
-
-# from typing import Any, Text, Dict, List
-#
-# from rasa_sdk import Action, Tracker
-# from rasa_sdk.executor import CollectingDispatcher
-#
-#
-# class ActionHelloWorld(Action):
-#
-#     def name(self) -> Text:
-#         return "action_hello_world"
-#
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#
-#         dispatcher.utter_message(text="Hello World!")
-#
-#         return []
 
 from typing import Any, Text, Dict, List
 
@@ -56,12 +31,9 @@ class ActionGenerateStory(Action):
                 "You are a storyteller, so when asked for story, you immediately start it. Also you don`t need to tell very big story"
         }
         history = [system_prompt]
-        story_promt = ''
         if tracker.get_slot('story_keeper') != '':
             story_promt = tracker.get_slot('story_keeper').strip()
-            # dispatcher.utter_message(text=tracker.get_slot('story_keeper'))
         else:
-            # dispatcher.utter_message(response="utter_start")
             story_promt = tracker.latest_message.get('text').strip()
 
         history.append({"role": 'user', "content": story_promt})
@@ -114,10 +86,8 @@ class ActionAffirmRewriteStory(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         if tracker.get_slot('rewrite_request'):
-            events = [SlotSet("story_started", False), SlotSet("rewrite_request", False)]
-            events.append(FollowupAction(name="action_generate_story"))
-            #dispatcher.utter_message(text="Alright, let's start a new story. What would you like it to be about?")
-            #return [SlotSet("story_started", False), SlotSet("rewrite_request", False)]
+            events = [SlotSet("story_started", False), SlotSet("rewrite_request", False),
+                      FollowupAction(name="action_generate_story")]
             return events
         else:
             dispatcher.utter_message(text="I don't understand your request.")
