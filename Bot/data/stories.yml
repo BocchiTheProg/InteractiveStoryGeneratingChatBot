@@ -77,8 +77,43 @@ stories:
   - intent: affirm
   - action: action_affirm_rewrite_story
 
+- story: Start New Story after Starting One 1
+  steps:
+  - intent: start_story
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
+  - intent: start_story
+  - action: action_generate_story
+  - intent: affirm
+  - action: action_affirm_rewrite_story
+
 - story: Deny Rewrite Story
   steps:
+  - intent: start_story
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
+  - intent: start_story
+  - action: action_generate_story
+  - intent: deny
+  - action: action_deny_rewrite_story
+
+- story: Deny Rewrite Story 1
+  steps:
+  - intent: start_story
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
+  - intent: start_story
+  - action: action_generate_story
+  - intent: deny
+  - action: action_deny_rewrite_story
+
+- story: Deny Rewrite Story 2
+  steps:
+  - intent: greet
+  - action: utter_greet
   - intent: start_story
   - action: action_generate_story
   - slot_was_set:
@@ -103,6 +138,21 @@ stories:
 
 - story: Deny Rewrite Story after Continue
   steps:
+  - intent: start_story
+  - action: action_generate_story
+  - slot_was_set:
+      - story_started: true
+  - intent: continue_story
+  - action: action_handle_story
+  - intent: start_story
+  - action: action_generate_story
+  - intent: deny
+  - action: action_deny_rewrite_story
+
+- story: Deny Rewrite Story after Continue 2
+  steps:
+  - intent: greet
+  - action: utter_greet
   - intent: start_story
   - action: action_generate_story
   - slot_was_set:
